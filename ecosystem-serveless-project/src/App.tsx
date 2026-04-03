@@ -2,6 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom"
 import Auth from "./pages/login"
 import { useEffect, useState } from "react"
 import { getCurrentUser, signOut } from "aws-amplify/auth"
+import Home from "./pages/Home";
 
 function App() {
   const nav = useNavigate();
@@ -13,7 +14,7 @@ function App() {
         await getCurrentUser();
         setIsLoggedin(true);
       } catch {
-        nav('/login');
+        // nav('/login');
       }
     };
     checkUser();
@@ -38,7 +39,7 @@ function App() {
         </div>
       )}
       <Routes>
-        <Route path="/" element={<h1>this is home page</h1>} />
+        <Route path="/" element={<Home />} />
         <Route path="/business" element={<h1>this is business page</h1>} />
         <Route path="/business/:id" element={<h1>this is single business page</h1>} />
         <Route path="/login" element={<Auth />} />
