@@ -40,30 +40,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-green-50">
-
-
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-          <span className="text-xl font-bold tracking-tight text-green-600">
-            EcoConnect
-          </span>
-          <div className="flex gap-2">
-            <button
-              onClick={() => nav("/login")}
-              className="px-4 py-1.5 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => nav("/login")}
-              className="px-4 py-1.5 text-sm rounded-md text-white font-semibold bg-green-600 hover:bg-green-700 transition"
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen !bg-white">
 
       <div className="text-center pt-12 pb-8 px-4">
         <h1 className="text-3xl font-bold text-gray-900 leading-snug">
@@ -94,11 +71,9 @@ const Home = () => {
               <div
                 key={biz.id}
                 onClick={() => handleCardClick(biz)}
-                className="bg-white rounded-xl border border-green-100 shadow-sm p-5 cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all duration-150"
+                className="flex flex-col items-center bg-white rounded-xl border border-green-100 shadow-sm p-5 cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all duration-150"
               >
-                <div className="bg-green-50 rounded-lg h-20 flex items-center justify-center mb-4">
-                  <span className="text-3xl">🌿</span>
-                </div>
+               
 
                 <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">
                   {biz.name || "Unnamed Business"}
@@ -108,12 +83,6 @@ const Home = () => {
                   {biz.description ||
                     "Locally sourced organic products delivered fresh to your door, supporting sustainable farming."}
                 </p>
-
-                {biz.category && (
-                  <span className="inline-block text-xs font-semibold px-3 py-0.5 rounded-full bg-green-100 text-green-700 mb-3">
-                    {biz.category}
-                  </span>
-                )}
 
                 <button className="w-full py-2 rounded-lg text-white text-sm font-semibold bg-green-600 hover:bg-green-700 transition">
                   View Details
