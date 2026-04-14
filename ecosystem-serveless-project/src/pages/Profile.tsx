@@ -16,7 +16,7 @@ interface Business {
 interface Review {
   reviewid: string;
   comment: string;
-  businessId?: string;
+  businessId: string;
   businessName?: string;
 }
 
@@ -29,7 +29,7 @@ function ReviewCard({
 }: {
   review: Review;
   onEdit: (review: Review) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: string, businessId:string) => void;
 }) {
   return (
     <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-start gap-4">
@@ -53,7 +53,7 @@ function ReviewCard({
         </button>
 
         <button
-          onClick={() => onDelete(review.reviewid)}
+          onClick={() => onDelete(review.reviewid, review.businessId!)}
           className="text-red-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
         >
           <Trash2 size={15} />
@@ -149,13 +149,13 @@ export default function Profile() {
     setEditingReview(null);
   };
 
-  const handleDeleteReview = (id: string) => {
+  const handleDeleteReview = (id: string, businessId:string) => {
     setConfirmDialog({
       message: "Delete this review?",
       onConfirm: async () => {
         setConfirmDialog(null);
         try {
-          await axios.delete(`${API_BASE}reviews/${id}`);
+          await axios.delete(`${API_BASE}business/${businessId}/reviews/${id}`);
           setReviews((prev) => prev.filter((r) => r.reviewid !== id));
         } catch {
           alert("Delete failed");
@@ -164,6 +164,9 @@ export default function Profile() {
     });
   };
 
+  // useEffect(() => {
+
+  // } [])
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-5xl mx-auto px-4 py-10">

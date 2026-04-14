@@ -6,6 +6,7 @@ interface Review {
   reviewid: string;
   comment: string;
   businessName?: string;
+  businessId: string
 }
 
 interface ReviewEditModalProps {
@@ -15,7 +16,7 @@ interface ReviewEditModalProps {
   review: Review | null;
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+const API_BASE = "https://85z743ntte.execute-api.us-east-1.amazonaws.com/";
 
 export default function ReviewEditModal({
   isOpen,
@@ -42,7 +43,7 @@ export default function ReviewEditModal({
     setLoading(true);
     setError("");
     try {
-      await axios.put(`${API_BASE}/reviews/${review!.reviewid}`, { comment });
+      await axios.put(`${API_BASE}/reviews/${review!.reviewid}`, { comment, businessId: review?.businessId });
       onSuccess();
       onClose();
     } catch (err: any) {
