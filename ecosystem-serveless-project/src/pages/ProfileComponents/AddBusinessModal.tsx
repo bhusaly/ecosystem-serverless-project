@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { X } from "lucide-react";
 
 interface Business {
-  id?: string;
+  businessId?: string;
   name: string;
   category: string;
   description: string;
@@ -12,10 +13,10 @@ interface BusinessModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
-  business?: Business | null; // if provided → edit mode
+  business?: Business | null; 
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+const API_BASE = "https://85z743ntte.execute-api.us-east-1.amazonaws.com/" ;
 
 export default function BusinessModal({
   isOpen,
@@ -31,7 +32,7 @@ export default function BusinessModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const isEdit = !!business?.id;
+  const isEdit = !!business;
 
   useEffect(() => {
     if (business) {
@@ -61,9 +62,9 @@ export default function BusinessModal({
     setError("");
     try {
       if (isEdit) {
-        await axios.put(`${API_BASE}/businesses/${business!.id}`, form);
+        await axios.put(`${API_BASE}business/${business!.businessId}`, form);
       } else {
-        await axios.post(`${API_BASE}/businesses`, form);
+        await axios.post(`${API_BASE}business`, form);
       }
       onSuccess();
       onClose();
@@ -92,12 +93,10 @@ export default function BusinessModal({
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+<X className="w-5 h-5" />
         </button>
 
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
           {isEdit ? "Edit Business" : "Add Business"}
         </h2>
 

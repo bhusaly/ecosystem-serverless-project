@@ -53,18 +53,18 @@ export const Navbar: React.FC = () => {
 
             {loggedin === true ? (
               <>
-                <Button
-                  variant="outline"
-                  onClick={() => nav("/profile")}
-                >
-                  Profile
-                </Button>
 
                 <Button
-                  variant="danger"
+                  variant="outline"
                   onClick={handleLogout}
                 >
                   Logout
+                </Button>
+                <Button
+                  variant="success"
+                  onClick={() => nav("/profile")}
+                >
+                  Profile
                 </Button>
               </>
             ) : loggedin === false ? (
@@ -84,7 +84,6 @@ export const Navbar: React.FC = () => {
                 </Button>
               </>
             ) : (
-              // loading state (important, avoids flicker)
               <div className="text-sm text-gray-400">...</div>
             )}
 

@@ -1,31 +1,21 @@
-
-
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 
 const client = new DynamoDBClient({});
 const dynamo = DynamoDBDocumentClient.from(client);
 
 export const handler = async (event) => {
   try {
-    console.log(event.body)
-    const body = JSON.parse(event.body);
-    const userId = event.requestContext?.authorizer?.jwt?.claims?.sub;
+    const businessId = event.pathParameters?.id;
 
-    const item = {
-      businessId: Date.now().toString(),
-      name: body.name,
-      category: body.category,
-      description: body.description,
-      userId, 
-    }
-    
     await dynamo.send(
-      new PutCommand({
+      new DeleteCommand({
         TableName: "Businesses",
-        Item: item,
+        Key: {
+          businessId,
+        },
       })
-    )
+    );
 
     return {
       statusCode: 200,
@@ -33,16 +23,17 @@ export const handler = async (event) => {
         "Access-Control-Allow-Origin": "http://localhost:5173",        "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
       },
-      body: JSON.stringify(item),
-    }
+      body: JSON.stringify({ message: "Deleted successfully" }),
+    };
   } catch (error) {
     return {
       statusCode: 500,
       headers: {
-        "Access-Control-Allow-Origin": "http://localhost:5173",        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+        "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
       },
       body: JSON.stringify({ error: error.message }),
-    }
+    };
   }
-}
+};
