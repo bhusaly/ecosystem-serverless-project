@@ -28,11 +28,20 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+                "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
+      },
       body: JSON.stringify(review),
     };
   } catch (error) {
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:5173",        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
+      },
       body: JSON.stringify({ error: error.message }),
     };
   }

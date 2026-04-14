@@ -1,3 +1,12 @@
+// export const handler = async (event) => {
+//   // TODO implement
+//   const response = {
+//     statusCode: 200,
+//     body: JSON.stringify('Hello from Lambda!'),
+//   };
+//   return response;
+// };
+
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
@@ -14,11 +23,21 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:5173",        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
+      },
       body: JSON.stringify(result.Items),
     };
   } catch (error) {
     return {
       statusCode: 500,
+
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:5173", 
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
+      },
       body: JSON.stringify({ error: error.message }),
     };
   }
