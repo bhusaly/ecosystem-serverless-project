@@ -5,6 +5,8 @@ import BusinessCard from "./ProfileComponents/BusinessCard";
 import ConfirmDialog from "./ProfileComponents/DeleteConfirmModal";
 import BusinessModal from "./ProfileComponents/AddBusinessModal";
 import ReviewEditModal from "./ProfileComponents/EditReviewModal";
+import { getCurrentUser } from "aws-amplify/auth";
+import { useNavigate } from "react-router-dom";
 
 interface Business {
   businessId: string;
@@ -29,11 +31,11 @@ function ReviewCard({
 }: {
   review: Review;
   onEdit: (review: Review) => void;
-  onDelete: (id: string, businessId:string) => void;
+  onDelete: (id: string, businessId: string) => void;
 }) {
   return (
     <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-start gap-4">
-      
+
       <div className="flex-1">
         {review.businessName && (
           <p className="text-xs font-medium text-green-600 mb-1">
@@ -44,7 +46,7 @@ function ReviewCard({
       </div>
 
       <div className="flex gap-2 shrink-0">
-        
+
         <button
           onClick={() => onEdit(review)}
           className="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
@@ -117,7 +119,7 @@ export default function Profile() {
 
   const handleEditBusiness = (business: Business) => {
     setEditingBusiness(business);
-    setBizModalOpen(true); 
+    setBizModalOpen(true);
   };
 
   const handleBizModalClose = () => {
@@ -140,7 +142,7 @@ export default function Profile() {
     });
   };
 
-
+  const nav = useNavigate();
   const handleEditReview = (review: Review) => {
     setEditingReview(review);
   };
@@ -149,7 +151,7 @@ export default function Profile() {
     setEditingReview(null);
   };
 
-  const handleDeleteReview = (id: string, businessId:string) => {
+  const handleDeleteReview = (id: string, businessId: string) => {
     setConfirmDialog({
       message: "Delete this review?",
       onConfirm: async () => {
@@ -163,10 +165,16 @@ export default function Profile() {
       },
     });
   };
-
-  // useEffect(() => {
-
-  // } [])
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        await getCurrentUser();
+      } catch {
+        nav("/login");
+      }
+    };
+    checkUser();
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-5xl mx-auto px-4 py-10">
@@ -249,9 +257,9 @@ export default function Profile() {
         business={editingBusiness}
       />
 
-   
+
       <ReviewEditModal
-        isOpen={!!editingReview}          
+        isOpen={!!editingReview}
         onClose={handleReviewModalClose}
         onSuccess={fetchReviews}
         review={editingReview}

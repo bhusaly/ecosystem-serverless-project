@@ -69,18 +69,12 @@ export const Navbar: React.FC = () => {
               </>
             ) : loggedin === false ? (
               <>
-                <Button
-                  variant="outline"
-                  onClick={() => nav("/login")}
-                >
-                  Login
-                </Button>
 
                 <Button
                   variant="success"
-                  onClick={() => nav("/register")}
+                  onClick={() => nav("/login")}
                 >
-                  Register
+                  Sign in
                 </Button>
               </>
             ) : (
